@@ -3,6 +3,7 @@ package com.michaeljordanr.cryptocurrencyapp.domain.usecase.getcoins
 import com.michaeljordanr.cryptocurrencyapp.common.Resource
 import com.michaeljordanr.cryptocurrencyapp.data.remote.dto.toCoin
 import com.michaeljordanr.cryptocurrencyapp.domain.model.Coin
+import com.michaeljordanr.cryptocurrencyapp.domain.model.CoinDetail
 import com.michaeljordanr.cryptocurrencyapp.domain.repository.CoinRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,13 +16,13 @@ class GetCoinsUseCase @Inject constructor(
 ) {
     operator fun invoke(): Flow<Resource<List<Coin>>> = flow {
         try {
-            emit(Resource.Loading())
+            emit(Resource.Loading<List<Coin>>())
             val coins = repository.getCoins()
-            emit(Resource.Success(coins.map { it.toCoin() }))
+            emit(Resource.Success<List<Coin>>(coins.map { it.toCoin() }))
         } catch(e: HttpException) {
-            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
+            emit(Resource.Error<List<Coin>>(e.localizedMessage ?: "An unexpected error occurred"))
         } catch (e: IOException) {
-            emit(Resource.Error("Couldn't reach server. Check you internet connection."))
+            emit(Resource.Error<List<Coin>>("Couldn't reach server. Check you internet connection."))
         }
     }
 }
