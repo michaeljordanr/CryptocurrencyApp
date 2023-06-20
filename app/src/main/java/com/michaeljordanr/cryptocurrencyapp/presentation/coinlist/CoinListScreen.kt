@@ -15,13 +15,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import com.michaeljordanr.cryptocurrencyapp.presentation.Screen
 import com.michaeljordanr.cryptocurrencyapp.presentation.coinlist.components.CoinListItem
+import com.michaeljordanr.cryptocurrencyapp.presentation.destinations.CoinDetailScreenDestination
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@RootNavGraph(start = true)
+@Destination
 @Composable
-fun CoinsListScreen(
-    navController: NavController,
+fun CoinListScreen(
+    navigator: DestinationsNavigator,
     viewModel: CoinListViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
@@ -29,7 +33,9 @@ fun CoinsListScreen(
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(state.coins) { coin ->
                 CoinListItem(coin = coin, onItemClick = {
-                    navController.navigate(Screen.CoinDetailScreen.route + "/${coin.id}")
+                    navigator.navigate(
+                        CoinDetailScreenDestination(coinId = coin.id)
+                    )
                 })
             }
         }

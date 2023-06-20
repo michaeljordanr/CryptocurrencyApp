@@ -27,7 +27,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.flowlayout.FlowRow
 import com.michaeljordanr.cryptocurrencyapp.presentation.coindetail.components.CoinTag
 import com.michaeljordanr.cryptocurrencyapp.presentation.coindetail.components.TeamListItem
+import com.ramcosta.composedestinations.annotation.Destination
 
+@Destination(
+    navArgsDelegate = CoinDetailScreenNavArgs::class
+)
 @Composable
 fun CoinDetailScreen(
     viewModel: CoinListViewModel = hiltViewModel()
@@ -67,7 +71,7 @@ fun CoinDetailScreen(
                         mainAxisSpacing = 10.dp,
                         crossAxisSpacing = 10.dp,
                         modifier = Modifier.fillMaxWidth()
-                            .padding(15.dp)
+                            .padding(vertical = 15.dp)
                     ) {
                         coin.tags.forEach { tag ->
                             CoinTag(tag = tag)

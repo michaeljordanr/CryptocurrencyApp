@@ -10,12 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.michaeljordanr.cryptocurrencyapp.presentation.coindetail.CoinDetailScreen
-import com.michaeljordanr.cryptocurrencyapp.presentation.coinlist.CoinsListScreen
-import com.michaeljordanr.cryptocurrencyapp.ui.theme.CryptocurrencyAppTheme
+import com.michaeljordanr.cryptocurrencyapp.presentation.ui.theme.CryptocurrencyAppTheme
+import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,22 +25,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val navController = rememberNavController()
-                    NavHost(
-                        navController = navController,
-                        startDestination = Screen.CoinListScreen.route
-                    ) {
-                        composable(
-                            route = Screen.CoinListScreen.route
-                        ) {
-                            CoinsListScreen(navController = navController)
-                        }
-                        composable(
-                            route = Screen.CoinDetailScreen.route + "/{coinId}"
-                        ) {
-                            CoinDetailScreen()
-                        }
-                    }
+                    DestinationsNavHost(navGraph = NavGraphs.root)
                 }
             }
         }
@@ -59,7 +40,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     )
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun GreetingPreview() {
     CryptocurrencyAppTheme {
